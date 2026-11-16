@@ -1,0 +1,44 @@
+name: Request code & source access
+description: Ask for read access to the private repository (notebook, analysis code, LaTeX source, derived data).
+title: "Access request: <your GitHub username>"
+labels: ["access-request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The code and source for *Measuring Gradual Disempowerment* are kept in a private repository.
+        Access (viewing and cloning) is granted on request. **This issue is public**, so please do not include private information.
+  - type: input
+    id: github
+    attributes:
+      label: GitHub username
+      description: The account that should be added as a collaborator.
+    validations:
+      required: true
+  - type: input
+    id: affiliation
+    attributes:
+      label: Affiliation (optional)
+  - type: dropdown
+    id: scope
+    attributes:
+      label: What do you need?
+      options:
+        - View the code and source
+        - Clone / pull to run or reproduce the analysis
+    validations:
+      required: true
+  - type: textarea
+    id: purpose
+    attributes:
+      label: Intended use
+      description: A sentence or two on how you plan to use the material.
+    validations:
+      required: true
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Terms
+      options:
+        - label: I will cite the paper if I use the code or results, and will not redistribute the repository without permission.
+          required: true

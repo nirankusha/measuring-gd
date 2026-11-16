@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Measuring Gradual Disempowerment</title>
+<meta name="description" content="A measurement framework for gradual disempowerment: from Anthropic Economic Index primitives to Human Economic Power and attractor diagnostics.">
+<meta name="author" content="Pawel Oczkowski">
+<meta property="og:title" content="Measuring Gradual Disempowerment">
+<meta property="og:description" content="From economic primitives to Human Economic Power: a measurement framework for gradual disempowerment, built on the Anthropic Economic Index.">
+<meta property="og:type" content="article">
+<meta property="og:image" content="figures/extended_abstract_example.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23a3412c'/%3E%3Cpath d='M7 22 Q16 4 25 22' stroke='white' stroke-width='3' fill='none'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}]});"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="kicker">Working paper · AI safety · Economic measurement · Complex systems</p>
+    <h1>Measuring Gradual Disempowerment</h1>
+    <p class="subtitle">From Economic Primitives to Human Economic Power</p>
+    <p class="byline">Pawel Oczkowski</p>
+    <nav class="actions" aria-label="Paper resources">
+      <a class="btn primary" href="paper.pdf">Read the paper (PDF)</a>
+      <a class="btn" href="#cite">Cite</a>
+      <a class="btn" href="#access">Request code &amp; source access</a>
+    </nav>
+  </div>
+</header>
+
+<nav class="toc" aria-label="Sections">
+  <div class="wrap toc-inner">
+    <a href="#abstract">Abstract</a>
+    <a href="#result">Key result</a>
+    <a href="#framework">Framework</a>
+    <a href="#pipeline">Measurement</a>
+    <a href="#results">Results</a>
+    <a href="#limits">Limitations</a>
+    <a href="#access">Code access</a>
+    <a href="#cite">Cite</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<section id="abstract">
+  <h2>Abstract</h2>
+  <p>Recent discussions of AI existential risk have increasingly expanded beyond catastrophic failure scenarios toward systemic pathways through which advanced AI systems may gradually erode human influence over economic, social, and institutional processes. Among these pathways, Gradual Disempowerment (GD) has emerged as a framework describing how incremental capability improvements can progressively reduce human participation in decision-making and resource allocation without requiring any singular catastrophic event.</p>
+  <p>This paper proposes an operational framework for measuring gradual disempowerment using economic indicators derived from the Anthropic Economic Index (AEI). Building on recent work in AI safety, economic exposure measurement, and production theory, we construct a multi-layer model linking AI participation, economic primitives, production factors, human economic power, and verification-economy dynamics. The framework combines system-dynamics reasoning, Cobb–Douglas production models, and attractor-based diagnostics to estimate how changes in AI capability affect human economic centrality. The framework provides a quantitative bridge between AI-safety theory, economic measurement, and complex-systems analysis, offering a potential foundation for future monitoring of gradual disempowerment dynamics.</p>
+  <p class="keywords"><span>Keywords</span> Gradual Disempowerment · AI Safety · Anthropic Economic Index · Economic Primitives · Human Economic Power · Verification Economy · Complex Systems · System Dynamics</p>
+</section>
+
+<section id="result">
+  <h2>Key result</h2>
+  <div class="callouts">
+    <div class="callout">
+      <p class="num">\(\hat\lambda = 1.57\)</p>
+      <p>Under the original construction of the inputs, all three occupation groups move sharply away from the Human Economic Power curve in September 2025 (Mahalanobis distance up to 7.0) and then converge. The excursion is produced by how the inputs were built, not by the sectors.</p>
+    </div>
+    <div class="callout">
+      <p class="num">\(\hat\lambda = 4.71\)</p>
+      <p>On harmonised, occupation-coded inputs across five AEI releases, the groups hold stable positions on the curve: distance stays at or below 1.26 and no excursion is detected.</p>
+    </div>
+    <div class="callout">
+      <p class="num">Null result</p>
+      <p>Diagnostics of gradual disempowerment are only as informative as the comparability of the measurements they are built on. The contribution is the measurement framework and the input requirements it makes explicit.</p>
+    </div>
+  </div>
+  <figure>
+    <a href="figures/extended_abstract_example.png"><img src="figures/extended_abstract_example.png" width="1827" height="1334" alt="Two rows of three panels comparing the illustrative and design-intent constructions: HEP curve with observations, Mahalanobis distance over time, and distance velocity."></a>
+    <figcaption><strong>Figure 1.</strong> Human Economic Power diagnostics under two constructions of the inputs. A: illustrative, original construction (four releases). B: design-intent specification (harmonised, occupation-coded inputs; autonomy equal to the AEI automation share; five releases). Left: observations and fitted HEP curve; centre: Mahalanobis distance; right: distance velocity.</figcaption>
+  </figure>
+</section>
+
+<section id="framework">
+  <h2>Framework</h2>
+  <h3>Scope within the gradual disempowerment model</h3>
+  <p>Gradual disempowerment unfolds across three interacting societal systems: the economy, culture, and states. This work measures the economic system and the one link through which culture supplies it (consumer habits, the supply of labour, and the types of economic subjects). Human Economic Power is therefore an indicator of disempowerment in one system, not of gradual disempowerment as a whole.</p>
+  <div class="grid two">
+    <figure>
+      <a href="figures/gd_scope_economy.png"><img src="figures/gd_scope_economy.png" width="1292" height="1080" loading="lazy" alt="Three-system model of gradual disempowerment with the economy and the culture-to-economy link highlighted."></a>
+      <figcaption><strong>Figure 2.</strong> Scope of the framework within the model of Kulveit et al. (2025).</figcaption>
+    </figure>
+    <figure>
+      <a href="figures/gd_alignment_cld.png"><img src="figures/gd_alignment_cld.png" width="1727" height="1143" loading="lazy" alt="Alignment interpretation: consumer choices, voting and regulation, human labour and cognition, and AI substitution leading to system drift."></a>
+      <figcaption><strong>Figure 3.</strong> Alignment reading: human participation keeps societal systems aligned; AI substitution opens a path to system drift.</figcaption>
+    </figure>
+  </div>
+
+  <h3>The human-centred core</h3>
+  <p>A human-centred economy is one in which human productive capability, purchasing power, and demand remain central determinants of production. Its stock-and-flow core links Human Labor Capacity, Purchase Power, Market Activated Desire, and Human Economic Centrality; Human Economic Power, Agency, and Centrality are higher-level indicators emerging from this structure.</p>
+  <div class="grid two">
+    <figure>
+      <a href="figures/h2h_simple.jpg"><img src="figures/h2h_simple.jpg" width="1390" height="905" loading="lazy" alt="Simplified human-centred economy with a labour–production loop and a desire–demand loop."></a>
+      <figcaption><strong>Figure 4.</strong> Simplified human-centred economy, before AI-mediated production.</figcaption>
+    </figure>
+    <figure>
+      <a href="figures/h2h_alignment.jpg"><img src="figures/h2h_alignment.jpg" width="1800" height="1100" loading="lazy" alt="Human-centred economic alignment framework with Human Economic Power, Agency and Centrality."></a>
+      <figcaption><strong>Figure 5.</strong> Human Economic Power, Agency, and Centrality close a reinforcing capability loop around the core economy.</figcaption>
+    </figure>
+    <figure>
+      <a href="figures/gd_cld_focus.png"><img src="figures/gd_cld_focus.png" width="1644" height="1696" loading="lazy" alt="Operational model with stocks and flows at full strength and all other elements faded."></a>
+      <figcaption><strong>Figure 6.</strong> Stock-flow backbone of the operational model.</figcaption>
+    </figure>
+    <figure>
+      <a href="figures/gd_cld.png"><img src="figures/gd_cld.png" width="1644" height="1696" loading="lazy" alt="Full operational stock-and-flow model drawn in Vensim."></a>
+      <figcaption><strong>Figure 7.</strong> Full operational model (stock-and-flow sketch, Vensim).</figcaption>
+    </figure>
+  </div>
+
+  <h3>The wider AI-mediated economy</h3>
+  <p>The causal loop diagram below places a simplified version of the core in an AI-mediated (AGI) economy. It is conceptual: stocks and flows show where quantities accumulate, but the differential equations are not formalised. It links the core stocks to an external AI Labor Capacity stock through three mechanisms: automation and augmentation (Agrawal et al., 2025), the verification economy and the reinforcing missing-junior loop (Catalini et al., 2026), with human economic agency and centrality read after Stiefenhofer (2025). Integrating this diagram with the operational core into one coherent model is the step towards a full simulation.</p>
+  <figure class="wide">
+    <a href="figures/gd_agi_economy.png"><img src="figures/gd_agi_economy.png" width="2000" height="1500" loading="lazy" alt="Causal loop diagram of gradual disempowerment in an AI-mediated economy, in six panels: automation and augmentation, human labour, preference and demand, verification economy, human economic power, AI capability."></a>
+    <figcaption><strong>Figure 8.</strong> Gradual disempowerment in an AI-mediated economy (conceptual causal loop diagram). Grey names in angle brackets are shadow variables; R and B mark reinforcing and balancing loops; † marks the AI-capacity outflow added to the source sketch.</figcaption>
+  </figure>
+</section>
+
+<section id="pipeline">
+  <h2>Measurement pipeline</h2>
+  <p>AEI releases are turned into economic primitives (penetration, interaction weights, task time), then into task complexity and frontier accessibility, then into automation, augmentation, and verification production factors. These yield empirical Human Economic Power, which is compared with a theoretical transition curve.</p>
+  <figure class="wide">
+    <a href="figures/aei_gd_framework.png"><img src="figures/aei_gd_framework.png" width="1807" height="1311" loading="lazy" alt="Pipeline from Anthropic Economic Index data through measurement, complexity, channels and activation to GD labour shares and verification."></a>
+    <figcaption><strong>Figure 9.</strong> AEI-derived production architecture.</figcaption>
+  </figure>
+  <div class="eqs">
+    <div class="eq">
+      <p class="eq-label">Effective AI participation</p>
+      \[ L^{emp}_{s,t} = p_{s,t}\,A_{u,t} \]
+      <p class="eq-note">Penetration \(p\) times autonomy \(A_u\), the AEI automation share (directive + feedback loop).</p>
+    </div>
+    <div class="eq">
+      <p class="eq-label">Empirical Human Economic Power</p>
+      \[ P^{emp}_{H} = \frac{H}{H + K^{eff}_{AI}} \]
+      <p class="eq-note">Effective human labour against effective AI capital, gated by frontier accessibility.</p>
+    </div>
+    <div class="eq">
+      <p class="eq-label">Theoretical HEP curve</p>
+      \[ P_H(L;\lambda)=\frac{e^{-\lambda L}(1-L)}{e^{-\lambda L}(1-L)+\left(1-e^{-\lambda L}\right)L} \]
+      <p class="eq-note">\(\lambda\) fitted by least squares over all sector–release observations.</p>
+    </div>
+    <div class="eq">
+      <p class="eq-label">Attractor diagnostics</p>
+      \[ \begin{gathered} D_M=\sqrt{(z-z^{*})^{\top}\Sigma^{-1}(z-z^{*})} \\ v_D=\Delta D_M,\qquad a_D=\Delta v_D \end{gathered} \]
+      <p class="eq-note">Nearest-curve Mahalanobis distance, with covariance from the baseline releases, and its velocity and acceleration.</p>
+    </div>
+  </div>
+</section>
+
+<section id="results">
+  <h2>Results</h2>
+  <p>On harmonised inputs, Computer &amp; Mathematical occupations account for 32–40% of classified Claude.ai conversations and hold Human Economic Power between 0.78 and 0.81; Legal and Retail stay above 0.98. The largest sustained movement is a gradual rise in distance for Retail Sales from a very low usage base.</p>
+  <div class="grid two">
+    <figure>
+      <a href="figures/hep_curve.png"><img src="figures/hep_curve.png" width="1827" height="957" loading="lazy" alt="Fitted HEP curve with observations for three occupation groups, full range and zoom."></a>
+      <figcaption><strong>Figure 10.</strong> Human Economic Power observations and fitted curve (\(\hat\lambda\) = 4.71).</figcaption>
+    </figure>
+    <figure>
+      <a href="figures/mahalanobis_diagnostics.png"><img src="figures/mahalanobis_diagnostics.png" width="1827" height="725" loading="lazy" alt="Residual, Mahalanobis distance and velocity over time for three occupation groups."></a>
+      <figcaption><strong>Figure 11.</strong> Attractor diagnostics: residual, distance, and velocity per release.</figcaption>
+    </figure>
+    <figure>
+      <a href="figures/input_sensitivity.png"><img src="figures/input_sensitivity.png" width="1827" height="1450" loading="lazy" alt="Sensitivity of the diagnostics to how the inputs are constructed."></a>
+      <figcaption><strong>Figure 12.</strong> Sensitivity to input construction: the excursion disappears once releases are measured consistently.</figcaption>
+    </figure>
+    <figure>
+      <a href="figures/specification_sensitivity.png"><img src="figures/specification_sensitivity.png" width="1827" height="1450" loading="lazy" alt="Effective AI participation and distance under three model specifications."></a>
+      <figcaption><strong>Figure 13.</strong> Sensitivity to specification: smooth autonomy gives \(\hat\lambda\) = 5.01; scaling participation by METR horizons fits about five times worse and tracks the capability series rather than the sectors.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="limits">
+  <h2>Limitations and next steps</h2>
+  <ul class="limits">
+    <li>Few ordered observations: five AEI releases and three occupation groups.</li>
+    <li>Penetration is a usage-composition measure of Claude.ai conversations; it cannot register economy-wide growth in adoption.</li>
+    <li>Interaction weights and autonomy are release-level, not occupation-specific.</li>
+    <li>The AEI records no output, capital, or hours; these are allocated from presupposed national aggregates, so production elasticities are not identified.</li>
+    <li>METR horizons cover Anthropic models only.</li>
+    <li>The framework measures divergence from expected dynamics, not gradual disempowerment directly.</li>
+  </ul>
+  <p>Next steps: standardise AEI inputs across releases, link the index to external sector-level accounts, and formalise the causal loop diagram as a stock-and-flow simulation whose trajectories can be compared with the theoretical curve and with releases not used in calibration.</p>
+</section>
+
+<section id="access">
+  <h2>Code and source access</h2>
+  <p>The simulation notebook, analysis scripts, LaTeX source, and derived data are kept in a private repository. Access, for viewing or cloning, is granted on request.</p>
+  <a class="btn primary" href="https://github.com/nirankusha/measuring-gd/issues/new?template=code-access.yml">Request access on GitHub</a>
+  <p class="small">The request form asks for your GitHub username and intended use. Requests are visible on the public issue tracker, so please do not include private information.</p>
+</section>
+
+<section id="cite">
+  <h2>Cite</h2>
+  <pre class="bib"><code>@misc{oczkowski2026gd,
+  title  = {Measuring Gradual Disempowerment: From Economic
+            Primitives to Human Economic Power},
+  author = {Oczkowski, Pawel},
+  year   = {2026},
+  note   = {Working paper},
+  url    = {https://nirankusha.github.io/measuring-gd/}
+}</code></pre>
+  <button class="btn" type="button" id="copybib">Copy BibTeX</button>
+</section>
+
+<section id="ai-use">
+  <h2>AI use</h2>
+  <p class="small">Claude (Anthropic) was used as an assistant for analysis code, reproduction runs, data retrieval, figures, consistency checks, and text editing, under the author's direction. The research question, framework, model, and conclusions are the author's, who reviewed all outputs and is responsible for the paper. The empirical analysis relies on the Anthropic Economic Index; the assistant is a product of the same company. The full statement is in the <a href="paper.pdf">paper</a>.</p>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Text and figures © 2026 Pawel Oczkowski, licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. AEI data: Anthropic Economic Index releases (Hugging Face).</p>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('copybib').addEventListener('click', function () {
+    var t = document.querySelector('.bib code').innerText, b = this;
+    function done(){ b.textContent = 'Copied'; setTimeout(function(){ b.textContent = 'Copy BibTeX'; }, 1800); }
+    try { navigator.clipboard.writeText(t).then(done, function(){}); } catch (e) {}
+  });
+</script>
+</body>
+</html>
