@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Formulas and Provenance</title>
+<meta name="description" content="Every formula in the Measuring Gradual Disempowerment pipeline, for both the v2.1 design-intent run and the illustrative run, with where each input comes from.">
+<meta name="author" content="Pawel Oczkowski">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23a3412c'/%3E%3Cpath d='M7 22 Q16 4 25 22' stroke='white' stroke-width='3' fill='none'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}]});"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="sitebar" aria-label="Site">
+  <div class="wrap sitebar-inner">
+    <a href="index.html">Paper</a>
+    <a href="formulas.html" aria-current="page">Formulas &amp; provenance</a>
+  </div>
+</nav>
+
+<header class="hero compact">
+  <div class="wrap">
+    <p class="kicker">Measuring Gradual Disempowerment</p>
+    <h1>Formulas &amp; provenance</h1>
+    <p class="subtitle">Where each quantity in the pipeline comes from</p>
+    <p class="small">The paper has two versions, and each was produced by its own notebook: the <strong>v2.1 design-intent run</strong> (<code>Grad_Dis_Simulation_v2_1.ipynb</code>) and the <strong>illustrative run</strong> (<code>Grad_Dis_Simulation_8-6_original.ipynb</code>). Every formula below was checked against the code of the version it belongs to. Cards tagged <span class="tag">differs between versions</span> show what that version actually computes. Cards tagged <span class="tag warn">paper text differs</span> mark places where the paper's wording does not yet match the code.</p>
+  </div>
+</header>
+
+<nav class="toc" aria-label="Layers">
+  <div class="wrap toc-inner">
+    <a href="#l1">1 · AEI measurement</a>
+    <a href="#l2">2 · Autonomy &amp; complexity</a>
+    <a href="#l3">3 · METR frontier</a>
+    <a href="#l4">4 · Capital &amp; labour</a>
+    <a href="#l5">5 · Production fits</a>
+    <a href="#l6">6 · Five-channel layer</a>
+    <a href="#l7">7 · Human Economic Power</a>
+    <a href="#l8">8 · Attractor diagnostics</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<section id="key">
+  <h2>Version</h2>
+  <div class="vswitch" role="group" aria-label="Paper version">
+    <button type="button" data-ver="a" aria-pressed="true">v2.1 · design intent</button>
+    <button type="button" data-ver="b" aria-pressed="false">Illustrative</button>
+  </div>
+  <p class="vnote" id="vnote"></p>
+
+  <h2>Provenance classes</h2>
+  <ul class="legend">
+    <li><span class="badge b-data">Data</span> Read directly from Anthropic Economic Index (AEI) releases.</li>
+    <li><span class="badge b-transform">Data + transformation</span> Computed from AEI data by a documented step (aggregation, renormalisation, interpolation).</li>
+    <li><span class="badge b-external">External</span> Taken from outside the AEI: METR time horizons and the national aggregates the model presupposes.</li>
+    <li><span class="badge b-model">GD model</span> A modelling choice of this paper: functional forms and fixed coefficients that are set by the author, not estimated.</li>
+    <li><span class="badge b-fitted">Fitted</span> Estimated from the sector–release observations.</li>
+  </ul>
+  <div class="filters" role="group" aria-label="Filter">
+    <button class="chip" type="button" data-filter="all" aria-pressed="true">All</button>
+    <button class="chip" type="button" data-filter="data" aria-pressed="false">Data</button>
+    <button class="chip" type="button" data-filter="transform" aria-pressed="false">Data + transformation</button>
+    <button class="chip" type="button" data-filter="external" aria-pressed="false">External</button>
+    <button class="chip" type="button" data-filter="model" aria-pressed="false">GD model</button>
+    <button class="chip" type="button" data-filter="fitted" aria-pressed="false">Fitted</button>
+    <button class="chip" type="button" data-filter="diff" aria-pressed="false">Differs between versions</button>
+  </div>
+  <p class="count" id="count" aria-live="polite"></p>
+</section>
+
+<!-- ============================ 1 ============================ -->
+<section id="l1" class="layer">
+  <h2>1 · AEI measurement layer</h2>
+  <p class="small">Three sectors: Computer &amp; Mathematical, Legal, Retail. Index \(s\) is the sector, \(t\) the release.</p>
+  <div class="flist">
+
+    <article class="f" data-v="a" data-prov="transform" data-diff="1">
+      <p class="f-head"><span class="f-name">Penetration \(p_{s,t}\)</span><span class="tag">differs between versions</span><span class="tag warn">paper text differs</span><span class="badge b-transform">Data + transformation</span></p>
+      \[ p_{s,t}=\frac{\sum_{i\in s} n_{i,t}/k_i}{\sum_{i} n_{i,t}}\,,\qquad i=\text{classified O*NET task},\ k_i=\#\text{occupations sharing task } i \]
+      <p>The share of <em>classified</em> Claude.ai conversations whose task maps to SOC group \(s\): 15-xxxx, 23-xxxx, or 41-2xxx (Retail Sales Workers). A task shared by \(k\) occupations counts \(1/k\) toward each. There are five releases, each read from its own files, with no interpolation.</p>
+      <p>Appendix B.1 of Paper A still prints \(p_s=\tfrac1{N_s}\sum_{i\in s}pct_i\), which is the illustrative form.</p>
+      <p class="src">Audit check: Feb 2025 C&amp;M share within 1 pp of the AEI-reported 37.2%. Usage shares sum to 100% across occupations, so they measure composition, not economy-wide adoption.</p>
+    </article>
+
+    <article class="f" data-v="b" data-prov="transform" data-diff="1">
+      <p class="f-head"><span class="f-name">Penetration \(p_{s,t}\)</span><span class="tag">differs between versions</span><span class="badge b-transform">Data + transformation</span></p>
+      \[ p^{obs}_{s,t}=\operatorname{clip}\Bigl(\tfrac{1}{N_s}\textstyle\sum_{i\in s}pct_{i,t},\ 0.01,\ 0.85\Bigr)\quad(2025),\qquad p^{obs}_{s,2026}=0.55\,\frac{\log(1+\overline{raw}_s)}{\log 101}\quad(\text{API proxy}) \]
+      \[ p_{s,t}=\exp\bigl(a_s+b_s\,t\bigr)\quad\text{through the two anchors } p^{obs}_{s,\text{Feb 2025}},\ p^{obs}_{s,\text{Mar 2026}} \]
+      <p>Sector rows are found by keyword (“computer”, “mathematical”, “legal”, “retail”). There are four releases (Feb 2025, Mar 2025, Sep 2025, Mar 2026). The Mar 2026 value is a compressed raw-API activity proxy, not task penetration. A log-linear path between the two anchors replaces every value. Paper B notes that this makes the run an illustration of the pipeline: rebuilt from a single measure, penetration is roughly constant.</p>
+    </article>
+
+    <article class="f" data-v="a" data-prov="data" data-diff="1">
+      <p class="f-head"><span class="f-name">Interaction weights \(w_j\)</span><span class="tag">differs between versions</span><span class="tag warn">paper text differs</span><span class="badge b-data">Data</span></p>
+      \[ w_{j,t}=\frac{pct_{j,t}}{\sum_{k\in\mathcal{J}}pct_{k,t}},\qquad \mathcal{J}=\{\text{directive},\ \text{feedback loop},\ \text{task iteration},\ \text{learning},\ \text{validation}\} \]
+      <p>The five documented AEI categories, renormalised after excluding <code>none</code> and <code>not_classified</code>. Weights are release-level. Appendix B.1 does not state the exclusion.</p>
+    </article>
+
+    <article class="f" data-v="b" data-prov="transform" data-diff="1">
+      <p class="f-head"><span class="f-name">Interaction weights \(w_j\)</span><span class="tag">differs between versions</span><span class="badge b-transform">Data + transformation</span></p>
+      \[ w_{j,t}=\frac{\sum_{c\to j}pct_{c,t}}{\sum_{c}pct_{c,t}} \]
+      <p>Categories are mapped to channels by keyword match. Any category that matches none of the five keywords is assigned to \(w_{iter}\), and that includes <code>none</code> and <code>not_classified</code>. Fixed default weights apply if a release has no interaction file.</p>
+    </article>
+
+    <article class="f" data-v="a" data-prov="data" data-diff="1">
+      <p class="f-head"><span class="f-name">Collection windows</span><span class="tag">differs between versions</span><span class="badge b-data">Data</span></p>
+      <div class="tablewrap"><table class="mini">
+        <thead><tr><th>Release</th><th>Conversations collected</th></tr></thead>
+        <tbody>
+          <tr><td>Feb 2025</td><td>Dec 2024 – Jan 2025</td></tr>
+          <tr><td>Mar 2025</td><td>24 Feb – 6 Mar 2025</td></tr>
+          <tr><td>Sep 2025</td><td>4 – 11 Aug 2025</td></tr>
+          <tr><td>Jan 2026</td><td>13 – 20 Nov 2025</td></tr>
+          <tr><td>Mar 2026</td><td>5 – 12 Feb 2026</td></tr>
+        </tbody>
+      </table></div>
+      <p>Each release is dated by its collection window. The illustrative run keys releases by publication date.</p>
+    </article>
+
+  </div>
+</section>
+
+<!-- ============================ 2 ============================ -->
+<section id="l2" class="layer">
+  <h2>2 · Autonomy and complexity</h2>
+  <div class="flist">
+
+    <article class="f" data-v="a" data-prov="data" data-diff="1">
+      <p class="f-head"><span class="f-name">Autonomy \(A_u\)</span><span class="tag">differs between versions</span><span class="badge b-data">Data</span></p>
+      \[ A_{u,t}=w_{dir,t}+w_{feed,t}\qquad\bigl(\text{robustness: }A_u=0.10+0.70(1-e^{-1.8p})\bigr) \]
+      <p>The main specification is the AEI automation share (directive plus feedback loop). It is release-level. The smooth function is kept as a robustness check (<code>AUTONOMY_SPEC='smooth_p'</code>).</p>
+    </article>
+
+    <article class="f" data-v="b" data-prov="model" data-diff="1">
+      <p class="f-head"><span class="f-name">Autonomy \(A_u\)</span><span class="tag">differs between versions</span><span class="badge b-model">GD model</span></p>
+      \[ A_u=0.10+0.70\bigl(1-e^{-1.8p}\bigr) \]
+      <p>A smooth saturating function of penetration, so it varies by sector and release only through \(p\).</p>
+    </article>
+
+    <article class="f" data-v="ab" data-prov="model">
+      <p class="f-head"><span class="f-name">Base empirical complexity \(C_{base}\)</span><span class="badge b-model">GD model</span></p>
+      \[ C_{base}=1+0.30\,p+0.25\,w_{iter}+0.20\,w_{feed}+0.15\,w_{valid} \]
+      <p>The inputs are AEI data. The linear form and the coefficients are fixed, not estimated.</p>
+    </article>
+
+    <article class="f" data-v="ab" data-prov="model">
+      <p class="f-head"><span class="f-name">Frontier ratio, pressure and accessibility</span><span class="badge b-model">GD model</span></p>
+      \[ R_f=\frac{C_{base}}{Q_{0.50}(C_{base})},\qquad P_f=R_f^{2},\qquad F_A=\frac{1}{1+\exp\!\bigl(4\,(P_f-1)\bigr)} \]
+      <p>\(Q_{0.50}\) is the median over all sector–release observations, so the frontier is a fixed benchmark relative to the sample. METR does not enter \(F_A\).</p>
+    </article>
+
+    <article class="f" data-v="ab" data-prov="model">
+      <p class="f-head"><span class="f-name">Empirical and cognitive complexity</span><span class="tag warn">paper text differs</span><span class="badge b-model">GD model</span></p>
+      \[ C_{emp}=C_{base}+0.10\,P_f,\qquad C_{cog}=C_{emp}\bigl(1+(1-F_A)\bigr)=C_{emp}\,(2-F_A) \]
+      <p>The appendix of both papers (B.2) writes \(C_{emp}\) with a term \(\alpha_5R_f\), linear in \(R_f\). The code adds \(0.10\,R_f^2\).</p>
+    </article>
+
+  </div>
+</section>
+
+<!-- ============================ 3 ============================ -->
+<section id="l3" class="layer">
+  <h2>3 · METR frontier landmark</h2>
+  <div class="flist">
+
+    <article class="f" data-v="a" data-prov="external" data-diff="1">
+      <p class="f-head"><span class="f-name">50% time horizon \(T^{METR}_{0.50}\)</span><span class="tag">differs between versions</span><span class="badge b-external">External</span></p>
+      <div class="tablewrap"><table class="mini">
+        <thead><tr><th>Release</th><th>Latest Claude model in the collection window</th><th>TH1.1 (min)</th></tr></thead>
+        <tbody>
+          <tr><td>Feb 2025</td><td>Claude 3.5 Sonnet (Oct 2024)</td><td>20.52</td></tr>
+          <tr><td>Mar 2025</td><td>Claude 3.7 Sonnet</td><td>60.39</td></tr>
+          <tr><td>Sep 2025</td><td>Claude Opus 4.1</td><td>100.47</td></tr>
+          <tr><td>Jan 2026</td><td>Claude Opus 4.1 (alt.: Sonnet 4.5, TH1.0 = 122)</td><td>100.47</td></tr>
+          <tr><td>Mar 2026</td><td>Claude Opus 4.6</td><td>718.81</td></tr>
+        </tbody>
+      </table></div>
+      <p>An external landmark. It is not used to impute task times.</p>
+    </article>
+
+    <article class="f" data-v="b" data-prov="external" data-diff="1">
+      <p class="f-head"><span class="f-name">50% time horizon \(T^{METR}_{0.50}\)</span><span class="tag">differs between versions</span><span class="badge b-external">External</span></p>
+      <div class="tablewrap"><table class="mini">
+        <thead><tr><th>Release</th><th>Latest Claude model before publication</th><th>TH1.1 (approx.)</th></tr></thead>
+        <tbody>
+          <tr><td>Feb 2025</td><td>Claude 3.5 Sonnet (new)</td><td>20 min</td></tr>
+          <tr><td>Mar 2025</td><td>Claude 3.7 Sonnet</td><td>1 h</td></tr>
+          <tr><td>Sep 2025</td><td>Claude Opus 4.1</td><td>1 h 41 min</td></tr>
+          <tr><td>Mar 2026</td><td>Claude Opus 4.6</td><td>11 h 59 min</td></tr>
+        </tbody>
+      </table></div>
+      <p>Keyed by publication date, with rounded values. Used only for the implied task horizon below.</p>
+    </article>
+
+    <article class="f" data-v="a" data-prov="external" data-diff="1">
+      <p class="f-head"><span class="f-name">Frontier capability \(C_{AI}\) — sensitivity only</span><span class="tag">differs between versions</span><span class="badge b-external">External</span></p>
+      \[ C_{AI,t}=\frac{\log\!\bigl(1+T^{METR}_t\bigr)}{\log\!\bigl(1+T^{METR}_{max}\bigr)} \]
+      <p>Enters only the frontier-in-\(L\) sensitivity run, where \(L=p\,A_u\,C_{AI}\). That run gives \(\hat\lambda=7.80\) (7.71 with the alternative Jan 2026 horizon). The jump comes from the capability series itself and is not evidence of disempowerment.</p>
+    </article>
+
+    <article class="f" data-v="ab" data-prov="model">
+      <p class="f-head"><span class="f-name">Implied task horizon — reported, not used</span><span class="badge b-model">GD model</span></p>
+      \[ T^{implied}_{s,t}=T^{METR}_{0.50}(t)\cdot R_{f,s,t} \]
+    </article>
+
+  </div>
+</section>
+
+<!-- ============================ 4 ============================ -->
+<section id="l4" class="layer">
+  <h2>4 · Capital and labour construction</h2>
+  <div class="flist">
+
+    <article class="f" data-v="ab" data-prov="external">
+      <p class="f-head"><span class="f-name">Presupposed national aggregates</span><span class="badge b-external">External</span></p>
+      \[ Y_s=\mathrm{GDP}\cdot g_s,\qquad H^{total}_s=H_{macro}\,\frac{g_s}{\sum_s g_s},\qquad K_s=K_{macro}\,\frac{Y_s}{\sum_s Y_s} \]
+      <p>\(\mathrm{GDP}=27.5\) trillion USD, \(K_{macro}=75\) trillion USD, \(H_{macro}=3.3\times10^{11}\) hours. The GDP shares \(g_s\) are 0.060 for C&amp;M, 0.015 for Legal and 0.062 for Retail. These values are assumed, not observed by the AEI. Because \(K\propto Y\), the production elasticities in layer 5 are not identified.</p>
+    </article>
+
+    <article class="f" data-v="ab" data-prov="model">
+      <p class="f-head"><span class="f-name">Displaced share and effective human labour</span><span class="badge b-model">GD model</span></p>
+      \[ \omega_{s,t}=\operatorname{clip}\bigl(p_{s,t}A_{u,s,t},\,0.001,\,0.95\bigr),\qquad H_{s,t}=H^{total}_s\,(1-\omega_{s,t}) \]
+    </article>
+
+    <article class="f" data-v="ab" data-prov="model">
+      <p class="f-head"><span class="f-name">AI capital and gated AI capital</span><span class="badge b-model">GD model</span></p>
+      \[ K_{AI,s,t}=H_{s,t}\,p_{s,t}\,C_{cog,s,t},\qquad K^{eff}_{AI,s,t}=K_{AI,s,t}\,F_{A,s,t} \]
+      <p>Measured in labour-equivalent units. \(F_A\) is the accessibility gate.</p>
+    </article>
+
+    <article class="f" data-v="ab" data-prov="model">
+      <p class="f-head"><span class="f-name">Verification capital</span><span class="tag warn">paper text differs</span><span class="badge b-model">GD model</span></p>
+      \[ v_{s,t}=p_{s,t}\,(w_{feed}+w_{valid})\,\bigl(1+(1-F_A)\bigr),\qquad s_{ver}=0.02+0.35\bigl(1-e^{-3v}\bigr) \]
+      \[ K_{ver}=K\,s_{ver},\qquad K_{ord}=K\,(1-s_{ver}) \]
+      <p>The appendix of both papers (B.5) prints the amplifier as \(1+P_f\). Both notebooks use \(1+(1-F_A)\).</p>
+    </article>
+
+    <article class="f" data-v="ab" data-prov="transform">
+      <p class="f-head"><span class="f-name">AI service exposure</span><span class="badge b-transform">Data + transformation</span></p>
+      \[ AI^{global}_{s,t}=H^{total}_s\,p_{s,t} \]
+    </article>
+
+  </div>
+</section>
+
+<!-- ============================ 5 ============================ -->
+<section id="l5" class="layer">
+  <h2>5 · Production fits</h2>
+  <p class="small">OLS in per-hour form with constant returns imposed. \(\beta\) is not estimated; it is backed out as \(1-\sum\)(other elasticities).</p>
+  <div class="flist">
+
+    <article class="f" data-v="ab" data-prov="fitted">
+      <p class="f-head"><span class="f-name">V1 baseline</span><span class="badge b-fitted">Fitted</span></p>
+      \[ \ln\frac{Y}{H}=\ln A+\alpha\ln\frac{K}{H}+\gamma\ln\frac{AI^{global}}{H},\qquad \beta=1-\alpha-\gamma \]
+    </article>
+
+    <article class="f" data-v="ab" data-prov="fitted">
+      <p class="f-head"><span class="f-name">V2 explicit AI capital</span><span class="badge b-fitted">Fitted</span></p>
+      \[ \ln\frac{Y}{H}=\ln A+\alpha_{ord}\ln\frac{K_{ord}}{H}+\alpha_{AI}\ln\frac{K_{AI}}{H},\qquad \beta=1-\alpha_{ord}-\alpha_{AI} \]
+    </article>
+
+    <article class="f" data-v="ab" data-prov="fitted">
+      <p class="f-head"><span class="f-name">V3 gated AI</span><span class="badge b-fitted">Fitted</span></p>
+      \[ \ln\frac{Y}{H}=\ln A+\alpha_{ord}\ln\frac{K_{ord}}{H}+\alpha^{eff}_{AI}\ln\frac{K^{eff}_{AI}}{H},\qquad \beta=1-\alpha_{ord}-\alpha^{eff}_{AI} \]
+      <p>\(\alpha_{ord}\gt1\) and \(\beta\lt0\) in both runs (v2.1 main: \(\alpha_{ord}\approx1.08\)–\(1.13\), \(\alpha^{eff}_{AI}\approx0.023\)). The negative \(\beta\) absorbs the excess created by imposing constant returns while \(K\propto Y\). It is not labour's elasticity. It affects only layer 6, not the HEP results.</p>
+    </article>
+
+  </div>
+</section>
+
+<!-- ============================ 6 ============================ -->
+<section id="l6" class="layer">
+  <h2>6 · Five-channel layer (illustration)</h2>
+  <p class="small">The same code in both versions. It inherits \(\beta\) from layer 5, so its outputs are illustration, not measurement.</p>
+  <div class="flist">
+
+    <article class="f" data-v="ab" data-prov="model">
+      <p class="f-head"><span class="f-name">Structural channel elasticities</span><span class="badge b-model">GD model</span></p>
+      \[ \gamma_j=\alpha_{AI}\,w_j,\qquad j\in\{dir,\,feed,\,iter,\,learn,\,valid\} \]
+    </article>
+
+    <article class="f" data-v="ab" data-prov="model">
+      <p class="f-head"><span class="f-name">Activation targets</span><span class="badge b-model">GD model</span></p>
+      \[ a^{*}_{auto}=p\,A_u,\qquad a^{*}_{aug}=p\,(1-A_u),\qquad a^{*}_{ver}=\tilde C\,A_u\,p\,(1-F_A) \]
+      <p>\(\tilde C\) is min–max normalised \(C_{emp}\).</p>
+    </article>
+
+    <article class="f" data-v="ab" data-prov="fitted">
+      <p class="f-head"><span class="f-name">Activation model</span><span class="badge b-fitted">Fitted</span></p>
+      \[ \operatorname{logit}\,a^{*}_m=b_0+b_1\tilde C+b_2A_u+b_3p,\qquad a_m=\operatorname{logit}^{-1}\bigl(\hat b^\top x\bigr) \]
+      <p>One small OLS-logit per mechanism. It is a structural diagnostic, not inference.</p>
+    </article>
+
+    <article class="f" data-v="ab" data-prov="model">
+      <p class="f-head"><span class="f-name">Effective elasticities and channel inputs</span><span class="badge b-model">GD model</span></p>
+      \[ \gamma^{eff}_{dir,feed}=\gamma_{dir,feed}\,a_{auto},\quad \gamma^{eff}_{iter,learn}=\gamma_{iter,learn}\,a_{aug},\quad \gamma^{eff}_{valid}=\gamma_{valid}\,a_{ver} \]
+      \[ AI_{j,s,t}=H^{total}_s\,p_{s,t}\,w_{j,t} \]
+    </article>
+
+    <article class="f" data-v="ab" data-prov="model">
+      <p class="f-head"><span class="f-name">Five-channel output and compute shock</span><span class="badge b-model">GD model</span></p>
+      \[ Y=A\,K_{ord}^{\alpha_{ord}}\,H^{\beta}\prod_{j}AI_j^{\gamma^{eff}_j} \]
+      <p>The compute shock multiplies \(AI_{dir}\) and \(AI_{feed}\) by 5.</p>
+    </article>
+
+    <article class="f" data-v="ab" data-prov="model">
+      <p class="f-head"><span class="f-name">Verification share from \(\gamma_5\) (diagnostic)</span><span class="badge b-model">GD model</span></p>
+      \[ s_{ver,\gamma}=\frac{1}{1+\exp\!\bigl(-(2500\,\gamma^{eff}_{valid}-1.5)\bigr)},\qquad K^{diag}_{ver}=K\,s_{ver,\gamma} \]
+      <p>Not used as a regressor.</p>
+    </article>
+
+  </div>
+</section>
+
+<!-- ============================ 7 ============================ -->
+<section id="l7" class="layer">
+  <h2>7 · Human Economic Power</h2>
+  <div class="flist">
+
+    <article class="f" data-v="a" data-prov="transform" data-diff="1">
+      <p class="f-head"><span class="f-name">Effective AI participation \(L\)</span><span class="tag">differs between versions</span><span class="badge b-transform">Data + transformation</span></p>
+      \[ L^{emp}_{s,t}=p_{s,t}\,(w_{dir,t}+w_{feed,t})\qquad\bigl(\text{sensitivity: }L=p\,A_u\,C_{AI}\bigr) \]
+      <p>Under the main specification both factors are AEI data.</p>
+    </article>
+
+    <article class="f" data-v="b" data-prov="model" data-diff="1">
+      <p class="f-head"><span class="f-name">Effective AI participation \(L\)</span><span class="tag">differs between versions</span><span class="badge b-model">GD model</span></p>
+      \[ L^{emp}_{s,t}=p_{s,t}\,A_u(p_{s,t})=p\,\bigl[0.10+0.70(1-e^{-1.8p})\bigr] \]
+      <p>Paper B's conceptual definition is \(L=P\,A_u\,C_{AI}\), and Section 3 explains that \(C_{AI}\) is represented through the complexity measures. In code, frontier capability enters \(K_{AI}\) through \(C_{cog}\), not \(L\).</p>
+    </article>
+
+    <article class="f" data-v="ab" data-prov="model">
+      <p class="f-head"><span class="f-name">Empirical HEP</span><span class="badge b-model">GD model</span></p>
+      \[ P^{emp}_{H,s,t}=\frac{H_{s,t}}{H_{s,t}+K^{eff}_{AI,s,t}} \]
+      <p>A structural power proxy, not a literal income share. The conceptual \(HEP=e\cdot\omega_L\) in Section 2 is a different, unmeasured quantity.</p>
+    </article>
+
+    <article class="f" data-v="ab" data-prov="model">
+      <p class="f-head"><span class="f-name">Theoretical HEP curve</span><span class="badge b-model">GD model</span></p>
+      \[ P_H(L;\lambda)=\frac{e^{-\lambda L}(1-L)}{e^{-\lambda L}(1-L)+\bigl(1-e^{-\lambda L}\bigr)L} \]
+    </article>
+
+    <article class="f" data-v="a" data-prov="fitted" data-diff="1">
+      <p class="f-head"><span class="f-name">Displacement steepness \(\hat\lambda\)</span><span class="tag">differs between versions</span><span class="badge b-fitted">Fitted</span></p>
+      \[ \hat\lambda=\arg\min_{\lambda}\frac{1}{N}\sum_{s,t}\Bigl(P^{emp}_{H,s,t}-P_H\bigl(L^{emp}_{s,t};\lambda\bigr)\Bigr)^2 \]
+      <div class="tablewrap"><table class="mini">
+        <thead><tr><th>Run (15 obs.)</th><th>\(\hat\lambda\)</th><th>MSE</th></tr></thead>
+        <tbody>
+          <tr><td>Main, \(L=p\,(w_{dir}+w_{feed})\)</td><td>4.71</td><td>4.96e−4</td></tr>
+          <tr><td>Robustness, smooth \(A_u\)</td><td>5.01</td><td>—</td></tr>
+          <tr><td>Sensitivity, \(L=p\,A_u\,C_{AI}\)</td><td>7.80 (alt. 7.71)</td><td>2.32e−3</td></tr>
+        </tbody>
+      </table></div>
+      <p>The observed \(L\) stays below about 0.2, where \(\lambda\) is weakly identified. The paper reports this as a null result, not a measured displacement rate.</p>
+    </article>
+
+    <article class="f" data-v="b" data-prov="fitted" data-diff="1">
+      <p class="f-head"><span class="f-name">Displacement steepness \(\hat\lambda\)</span><span class="tag">differs between versions</span><span class="badge b-fitted">Fitted</span></p>
+      \[ \hat\lambda=\arg\min_{\lambda}\frac{1}{N}\sum_{s,t}\Bigl(P^{emp}_{H,s,t}-P_H\bigl(L^{emp}_{s,t};\lambda\bigr)\Bigr)^2=1.5705 \]
+      <p>Fitted on 12 observations, with mean squared error 3.64e−3. This is the value the illustrative paper uses (\(\hat\lambda\approx1.57\)). It depends on the interpolated penetration path in layer 1.</p>
+    </article>
+
+  </div>
+</section>
+
+<!-- ============================ 8 ============================ -->
+<section id="l8" class="layer">
+  <h2>8 · Attractor diagnostics</h2>
+  <p class="small">The same rules in both versions. With 12–15 points and all thresholds at zero, the labels are descriptive tags, not findings.</p>
+  <div class="flist">
+
+    <article class="f" data-v="ab" data-prov="model">
+      <p class="f-head"><span class="f-name">Mahalanobis distance to the HEP curve</span><span class="tag warn">paper text differs</span><span class="badge b-model">GD model</span></p>
+      \[ D_{M,s,t}=\min_{L'}\sqrt{\bigl(z_{s,t}-z^{*}(L')\bigr)^{\!\top}\Sigma^{-1}\bigl(z_{s,t}-z^{*}(L')\bigr)},\qquad z=(L^{emp},P^{emp}_H),\ z^{*}(L')=\bigl(L',P_H(L';\hat\lambda)\bigr) \]
+      \[ v_{D,s,t}=D_{M,s,t}-D_{M,s,t-1},\qquad a_{D,s,t}=v_{D,s,t}-v_{D,s,t-1} \]
+      <p>\(\Sigma\) comes from the Feb and Mar 2025 releases, with ridge \(10^{-5}I\), on a 1,000-point curve grid. Appendix B.7 of both papers prints \(D_M\) without the square root.</p>
+    </article>
+
+    <article class="f" data-v="ab" data-prov="model">
+      <p class="f-head"><span class="f-name">Mechanism distances and basin radius</span><span class="badge b-model">GD model</span></p>
+      \[ D_{M,m}=\sqrt{(x_m-\mu_m)^{\top}\Sigma_m^{-1}(x_m-\mu_m)},\qquad r_m=Q_{0.95}\bigl(D_{M,m}\ \text{over the baseline}\bigr) \]
+      <p>Coordinates \(x_m\): automation \((\ln K_{ord},\ln K^{eff}_{AI})\), augmentation \((\ln H,\ln K^{eff}_{AI})\), verification \((\ln K^{eff}_{AI},\ln K_{ver})\). The baseline is all releases of the run, with ridge \(10^{-5}\).</p>
+    </article>
+
+    <article class="f" data-v="ab" data-prov="model">
+      <p class="f-head"><span class="f-name">Evidence score</span><span class="badge b-model">GD model</span></p>
+      \[ E_m=0.5\,I_r+1.0\,I_D+1.5\,I_v+2.0\,I_a \]
+      <p>\(I_r=\mathbb 1[\varepsilon_m\gt0]\), \(I_D=\mathbb 1[D_{M,m}\gt r_m]\), \(I_v=\mathbb 1[v_m\gt0]\), \(I_a=\mathbb 1[a_m\gt0]\), where \(\varepsilon_m\) is the mechanism's log-output residual. Labels: \(E\lt1\) smooth substitution; \(1\le E\lt2.5\) weak deviation; \(2.5\le E\lt4\) manifold drift; \(E\ge4\) phase-shift candidate. The weights are heuristic.</p>
+    </article>
+
+    <article class="f" data-v="ab" data-prov="model">
+      <p class="f-head"><span class="f-name">HEP regime labels</span><span class="badge b-model">GD model</span></p>
+      <div class="tablewrap"><table class="mini">
+        <thead><tr><th>Residual \(r_H\)</th><th>Velocity \(v_D\)</th><th>Acceleration \(a_D\)</th><th>Label</th></tr></thead>
+        <tbody>
+          <tr><td>\(\ge0\)</td><td>\(\le0\) or n/a</td><td>—</td><td>human power retained</td></tr>
+          <tr><td>\(\ge0\)</td><td>\(\gt0\)</td><td>—</td><td>bicycle / transition pressure</td></tr>
+          <tr><td>\(\lt0\)</td><td>\(\le0\) or n/a</td><td>—</td><td>below theory but stabilising</td></tr>
+          <tr><td>\(\lt0\)</td><td>\(\gt0\)</td><td>\(\le0\) or n/a</td><td>gradual-disempowerment drift</td></tr>
+          <tr><td>\(\lt0\)</td><td>\(\gt0\)</td><td>\(\gt0\)</td><td>phase-shift candidate</td></tr>
+        </tbody>
+      </table></div>
+    </article>
+
+  </div>
+</section>
+
+<section id="notes">
+  <h2>Notes</h2>
+  <p class="small">The notebooks are the source of truth. Where Appendix B of either paper differs from the code (\(C_{emp}\), verification pressure, the \(D_M\) square root, and in Paper A the penetration and weight definitions), the code form is shown here. Code is available on request from the <a href="index.html#access">paper page</a>.</p>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Text and figures © 2026 Pawel Oczkowski, licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. AEI data: Anthropic Economic Index releases (Hugging Face). METR: Time Horizon 1.1.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var NOTES = {
+    a: 'v2.1 design intent (Paper A, the null result): five releases, occupation-coded penetration, documented interaction weights, autonomy = AEI automation share. 15 observations.',
+    b: 'Illustrative (Paper B, available as an illustration): four releases, keyword-matched penetration interpolated toward a 2026 API proxy, smooth autonomy. 12 observations. It shows how the pipeline works; it is not a measurement.'
+  };
+  var state = { ver: 'a', prov: 'all' };
+  try { var h = (location.hash || '').match(/v=(a|b)/); if (h) state.ver = h[1]; } catch (e) {}
+  var cards = document.querySelectorAll('.f'), layers = document.querySelectorAll('.layer');
+  var count = document.getElementById('count'), note = document.getElementById('vnote');
+  function apply() {
+    var n = 0, total = 0;
+    cards.forEach(function (c) {
+      var inVer = c.dataset.v.indexOf(state.ver) !== -1;
+      if (inVer) total++;
+      var p = state.prov;
+      var show = inVer && (p === 'all' || (p === 'diff' ? c.dataset.diff === '1' : c.dataset.prov === p));
+      c.hidden = !show; if (show) n++;
+    });
+    layers.forEach(function (l) { l.hidden = !l.querySelector('.f:not([hidden])'); });
+    count.textContent = n + ' of ' + total + ' formulas shown';
+    note.textContent = NOTES[state.ver];
+    document.querySelectorAll('.vswitch button').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.ver === state.ver ? 'true' : 'false'); });
+    document.querySelectorAll('.chip').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.filter === state.prov ? 'true' : 'false'); });
+  }
+  document.querySelectorAll('.vswitch button').forEach(function (b) {
+    b.addEventListener('click', function () { state.ver = b.dataset.ver; try { history.replaceState(null, '', '#v=' + state.ver); } catch (e) {} apply(); });
+  });
+  document.querySelectorAll('.chip').forEach(function (b) {
+    b.addEventListener('click', function () { state.prov = b.dataset.filter; apply(); });
+  });
+  apply();
+})();
+</script>
+</body>
+</html>
